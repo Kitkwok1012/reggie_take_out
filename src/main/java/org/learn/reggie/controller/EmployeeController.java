@@ -23,7 +23,7 @@ public class EmployeeController {
      *
      * @param request
      * @param employee
-     * @return
+     * @return R
      */
 
     //1. Enquiry username exist in database
@@ -57,5 +57,16 @@ public class EmployeeController {
         //should clear the password before return the employee object
         //loginEmployee.setPassword(null);
         return R.success(loginEmployee);
+    }
+
+    /**
+     *
+     * @param request
+     * @return R
+     */
+    @PostMapping("/logout")
+    public R<String> logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("employee");
+        return R.success("logout success");
     }
 }
