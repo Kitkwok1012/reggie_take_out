@@ -2,6 +2,7 @@ package org.learn.reggie.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -58,7 +59,7 @@ public class EmployeeController {
 
         request.getSession().setAttribute("employee", loginEmployee.getId());
         //should clear the password before return the employee object
-        //loginEmployee.setPassword(null);
+        loginEmployee.setPassword(null);
         return R.success(loginEmployee);
     }
 
@@ -88,6 +89,20 @@ public class EmployeeController {
 
 
         return R.success("Add new employee success");
+    }
+
+    /**
+     * Use id to update employee
+     * @param request
+     * @param employee
+     * @return
+     */
+    @PutMapping
+    public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(((Long) request.getSession().getAttribute("employee")));
+        employeeService.updateById(employee);
+        return R.success("Update employee success");
     }
 
     @GetMapping("/page")
