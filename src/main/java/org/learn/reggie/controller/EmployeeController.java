@@ -117,4 +117,14 @@ public class EmployeeController {
         employeeService.page(pageInfo, queryWrapper);
         return R.success(pageInfo);
     }
+
+    @GetMapping("/{id}")
+    public R<Employee> getById(@PathVariable Long id) {
+        log.info("query user by id {} ", id);
+        Employee employee = employeeService.getById(id);
+        if (employee != null) {
+            return R.success(employee);
+        }
+        return R.error("Can't find the user with id " + id);
+    }
 }
