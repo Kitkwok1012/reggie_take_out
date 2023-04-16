@@ -7,6 +7,7 @@ Check user is login?
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.learn.reggie.common.BaseContext;
 import org.learn.reggie.common.R;
 import org.springframework.util.AntPathMatcher;
 
@@ -59,6 +60,8 @@ public class LoginCheckFilter implements Filter {
         //4. check is login
         if(request.getSession().getAttribute("employee") != null) {
             filterChain.doFilter(request, response);
+            Long employeeId = (Long) request.getSession().getAttribute("employee");
+            BaseContext.setCurrentId(employeeId);
             return;
         }
 
