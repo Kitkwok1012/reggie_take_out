@@ -2,7 +2,9 @@ package org.learn.reggie.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.learn.reggie.common.R;
 import org.learn.reggie.entity.Employee;
 import org.learn.reggie.service.EmployeeService;
@@ -86,5 +88,18 @@ public class EmployeeController {
 
 
         return R.success("Add new employee success");
+    }
+
+    @GetMapping("/page")
+    public R<Page> page(HttpServletRequest request, int page, int pageSize, String name) {
+        log.info("page = {}, pageSize = {}, name = {}", page, pageSize, name);
+        Page pageInfo = new Page(page, pageSize);
+
+        LambdaQueryWrapper<Employee> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.like(StringUtils.isNotEmpty(name),Employee::getName,name);
+        queryWrapper.orderByDesc(Employee::getUpdateTime);
+
+        employeeService.page(pageInfo, queryWrapper);
+        return R.success(pageInfo);
     }
 }
