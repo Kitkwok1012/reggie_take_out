@@ -4,3 +4,9 @@
 <br />This project is refer to reggiet take out project (瑞吉外卖) on gitee
 
 <br />https://gitee.com/itxinfei/reggie
+
+<br />For sql import 
+
+```
+mysql -u root -p reggie < db_reggie.sql
+```
