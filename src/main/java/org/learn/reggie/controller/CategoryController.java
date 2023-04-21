@@ -41,4 +41,10 @@ public class CategoryController {
 		categoryService.remove(id);
 		return R.success("Delete category success");
 	}
+
+	@PutMapping
+	public R<String> update(@RequestBody Category category){
+		categoryService.updateById(category);
+		return R.success("Update category success");
+	}
 }
