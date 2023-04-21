@@ -53,10 +53,9 @@ public class CommonController {
         }
 
         try {
-            //将临时文件转存到指定位置
             //file.transferTo(new File(basePath + fileName));
             //项目运行的根目录
-            file.transferTo(new File(dir.getParentFile().toString() + fileName));
+            file.transferTo(new File(dir.getParentFile().toString() + "\\" +fileName));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,7 +71,7 @@ public class CommonController {
         try {
             //输入流，通过输入流读取文件内容
             //FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
-            FileInputStream fileInputStream = new FileInputStream(new File(dir.getParentFile().toString() + name));
+            FileInputStream fileInputStream = new FileInputStream(new File(dir.getParentFile().toString() + "\\" + name));
 
             //输出流，通过输出流将文件写回浏览器
             ServletOutputStream outputStream = response.getOutputStream();
