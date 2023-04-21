@@ -8,4 +8,8 @@ public interface DishService extends IService<Dish> {
 
     //Add dish and Dish flavor at the same time
     public void saveWtihFlavor(DishDto dishDto);
+
+    public DishDto getByIdWithFlavor(Long id);
+
+    public void updateWithFlavor(DishDto dishDto);
 }
