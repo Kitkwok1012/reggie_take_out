@@ -35,4 +35,13 @@ public class GlobalExceptionHandler {
         return R.error("SQL exception");
     }
 
+    /**
+     * Handle Custom exception
+     * @return
+     */
+    @ExceptionHandler(CustomException.class)
+    public R<String> exceptionHandler(CustomException exception) {
+        return R.error(exception.getMessage());
+    }
+
 }
