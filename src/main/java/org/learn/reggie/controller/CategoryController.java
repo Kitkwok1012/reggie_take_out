@@ -36,9 +36,9 @@ public class CategoryController {
 	}
 
 	@DeleteMapping
-	public R<String> delete(Long id){
+	public R<String> delete(@RequestParam(value = "ids") Long id){
 		log.info("Delete category by id {}", id);
-		categoryService.removeById(id);
+		categoryService.remove(id);
 		return R.success("Delete category success");
 	}
 }
