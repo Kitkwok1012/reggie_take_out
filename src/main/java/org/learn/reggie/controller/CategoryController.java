@@ -9,6 +9,9 @@ import org.learn.reggie.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+
 @RestController
 @RequestMapping("/category")
 @Slf4j
@@ -46,5 +49,14 @@ public class CategoryController {
 	public R<String> update(@RequestBody Category category){
 		categoryService.updateById(category);
 		return R.success("Update category success");
+	}
+
+	@GetMapping("/list")
+	public R<List<Category>> list(Category category) {
+		LambdaQueryWrapper<Category> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+		lambdaQueryWrapper.eq(category.getType()!=null, Category::getType, category.getType());
+		lambdaQueryWrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
+		List<Category> categoryList = categoryService.list(lambdaQueryWrapper);
+		return R.success(categoryList);
 	}
 }
