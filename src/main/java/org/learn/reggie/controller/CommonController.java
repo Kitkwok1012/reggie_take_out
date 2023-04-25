@@ -24,8 +24,8 @@ import java.util.UUID;
 @Slf4j
 public class CommonController {
 
-    @Value("${reggie.path}")
-    private String basePath;
+//    @Value("${reggie.path}")
+//    private String basePath;
 
     @PostMapping("/upload")
     public R<String> upload(MultipartFile file) {
@@ -36,19 +36,17 @@ public class CommonController {
         String originalFilename = file.getOriginalFilename();//abc.jpg
         String suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
 
-        //使用UUID重新生成文件名，防止文件名称重复造成文件覆盖
+        //Use UUID
         String fileName = UUID.randomUUID().toString() + suffix;//dfsdfdfd.jpg
 
-        //创建一个目录对象
-        System.out.println("文件目录：" + basePath);
-        //获取根目录
+
+
         ApplicationHome h = new ApplicationHome(getClass());
         File dir = h.getSource();
         System.out.println("获取根目录" + dir.getParentFile().toString());
         //File dir = new File(basePath);
-        //判断当前目录是否存在
+
         if (!dir.exists()) {
-            //目录不存在，需要创建
             dir.mkdirs();
         }
 
@@ -64,7 +62,7 @@ public class CommonController {
 
     @GetMapping("/download")
     public void download(String name, HttpServletResponse response) {
-        //获取根目录
+
         ApplicationHome h = new ApplicationHome(getClass());
         File dir = h.getSource();
         System.out.println("获取根目录" + dir.getParentFile().toString());
