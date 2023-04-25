@@ -112,6 +112,11 @@ public class DishController {
     public R<List<Dish>> list(Dish dish) {
         LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(dish.getCategoryId()!=null, Dish::getCategoryId, dish.getCategoryId());
+
+        //Only get the dish if status is 1 (available)
+        queryWrapper.eq(Dish::getStatus, 1);
+        
+        //Sort
         queryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
         List<Dish> list = dishService.list(queryWrapper);
         return R.success(list);
