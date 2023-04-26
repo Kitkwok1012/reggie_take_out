@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.learn.reggie.common.BaseContext;
 import org.learn.reggie.common.R;
 import org.learn.reggie.entity.Employee;
+import org.learn.reggie.log.WebLog;
 import org.learn.reggie.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
@@ -108,6 +109,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/page")
+    @WebLog()
     public R<Page> page(HttpServletRequest request, int page, int pageSize, String name) {
         log.info("page = {}, pageSize = {}, name = {}", page, pageSize, name);
         Page pageInfo = new Page(page, pageSize);
