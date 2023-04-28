@@ -43,7 +43,7 @@ public class CommonController {
 
         ApplicationHome h = new ApplicationHome(getClass());
         File dir = h.getSource();
-        System.out.println("获取根目录" + dir.getParentFile().toString());
+        System.out.println("Get Root: " + dir.getParentFile().toString());
         //File dir = new File(basePath);
 
         if (!dir.exists()) {
@@ -65,7 +65,7 @@ public class CommonController {
 
         ApplicationHome h = new ApplicationHome(getClass());
         File dir = h.getSource();
-        System.out.println("获取根目录" + dir.getParentFile().toString());
+        System.out.println("Get Root: " + dir.getParentFile().toString());
         try {
             //输入流，通过输入流读取文件内容
             //FileInputStream fileInputStream = new FileInputStream(new File(basePath + name));
