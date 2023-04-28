@@ -20,23 +20,23 @@ public class Setmeal implements Serializable {
 	private Long id;
 
 
-	//分类id
+	//id
 	private Long categoryId;
 
 
-	//套餐名称
+	//Set name
 	private String name;
 
 
-	//套餐价格
+	//Set Price
 	private BigDecimal price;
 
 
-	//状态 0:停用 1:启用
+	//0: Unavailable 1: Available
 	private Integer status;
 
 
-	//编码
+	//Code
 	private String code;
 
 
@@ -44,7 +44,7 @@ public class Setmeal implements Serializable {
 	private String description;
 
 
-	//图片
+	//image
 	private String image;
 
 
@@ -64,6 +64,6 @@ public class Setmeal implements Serializable {
 	private Long updateUser;
 
 
-	//是否删除
+	//idDeleted
 	private Integer isDeleted;
 }

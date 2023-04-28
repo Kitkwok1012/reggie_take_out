@@ -1,6 +1,8 @@
 package org.learn.reggie.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.learn.reggie.common.CustomException;
 import org.learn.reggie.dto.SetmealDto;
 import org.learn.reggie.entity.Setmeal;
 import org.learn.reggie.entity.SetmealDish;
@@ -20,6 +22,9 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
     @Autowired
     private SetmealDishService setmealDishService;
 
+    @Autowired
+    private SetmealService setmealService;
+
     /**
      * Save set with dish
      * @param setmealDto
@@ -38,5 +43,34 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
         }).collect(Collectors.toList());
 
         setmealDishService.saveBatch(setmealDishes);
+    }
+
+    /**
+     * Delete set with dish
+     * @param ids
+     */
+    @Override
+    @Transactional
+    public void removeWithDish(List<Long> ids) {
+        //select count(*) from setmeal where id in (1, 2, 3) and status = 1
+
+        //Check Status can delete or not
+        LambdaQueryWrapper<Setmeal> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(Setmeal::getId, ids);
+        lambdaQueryWrapper.eq(Setmeal::getStatus, 1);
+
+        int count = this.count(lambdaQueryWrapper);
+        if (count > 0) {
+            throw new CustomException("Set is in Sale, Can not be deleted");
+        }
+
+        //Delete set in setmeal table
+        this.removeByIds(ids);
+
+        //Delete relation in setmeal_dish table
+        //delete from setmeal_dish where setmealid in (1, 2 ,3);
+        LambdaQueryWrapper<SetmealDish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.in(SetmealDish::getSetmealId, ids);
+        setmealDishService.remove(queryWrapper);
     }
 }

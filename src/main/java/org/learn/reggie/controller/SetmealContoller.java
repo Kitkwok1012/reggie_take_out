@@ -9,11 +9,13 @@ import org.learn.reggie.common.R;
 import org.learn.reggie.dto.SetmealDto;
 import org.learn.reggie.entity.Category;
 import org.learn.reggie.entity.Setmeal;
+import org.learn.reggie.entity.SetmealDish;
 import org.learn.reggie.service.CategoryService;
 import org.learn.reggie.service.SetmealDishService;
 import org.learn.reggie.service.SetmealService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -71,4 +73,27 @@ public class SetmealContoller {
         return R.success(dtoPage);
     }
 
+    @DeleteMapping
+    public R<String> delete(@RequestParam List<Long> ids) {
+        log.info("ids : {}",ids);
+        setmealService.removeWithDish(ids);
+        return R.success("Set meal delete success");
+    }
+
+
+    @GetMapping("/{id}")
+    public R<SetmealDto> getById(@PathVariable long id) {
+        Setmeal setmeal = setmealService.getById(id);
+
+        SetmealDto setmealDto = new SetmealDto();
+        BeanUtils.copyProperties(setmeal, setmealDto);
+
+        LambdaQueryWrapper<SetmealDish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SetmealDish::getSetmealId, id);
+
+        List<SetmealDish> list = setmealDishService.list(lambdaQueryWrapper);
+        setmealDto.setSetmealDishes(list);
+
+        return R.success(setmealDto);
+    }
 }
