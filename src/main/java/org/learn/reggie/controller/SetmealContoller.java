@@ -2,12 +2,14 @@ package org.learn.reggie.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.util.Strings;
 import org.learn.reggie.common.R;
 import org.learn.reggie.dto.SetmealDto;
 import org.learn.reggie.entity.Category;
+import org.learn.reggie.entity.Dish;
 import org.learn.reggie.entity.Setmeal;
 import org.learn.reggie.entity.SetmealDish;
 import org.learn.reggie.service.CategoryService;
@@ -103,4 +105,12 @@ public class SetmealContoller {
         setmealService.modifyWithDish(setmealDto);
         return R.success("modify setmeal success");
     }
+
+    @PostMapping("/status/{status}")
+    public R<String> status(@PathVariable int status, @RequestParam List<Long> ids) {
+        log.info("update status {}", status);
+        setmealService.updateStatus(status, ids);
+        return R.success("update status success");
+    }
+
 }

@@ -24,4 +24,12 @@ public interface SetmealService extends IService<Setmeal> {
      * @param setmealDto
      */
     public void modifyWithDish(SetmealDto setmealDto);
+
+
+    /**
+     * Update status for set meal
+     * @param status
+     * @param ids
+     */
+    public void updateStatus(int status, List<Long> ids);
 }

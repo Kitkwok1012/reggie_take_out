@@ -1,12 +1,15 @@
 package org.learn.reggie.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.learn.reggie.common.CustomException;
 import org.learn.reggie.dto.SetmealDto;
+import org.learn.reggie.entity.Dish;
 import org.learn.reggie.entity.Setmeal;
 import org.learn.reggie.entity.SetmealDish;
 import org.learn.reggie.mapper.SetmealMapper;
+import org.learn.reggie.service.DishService;
 import org.learn.reggie.service.SetmealDishService;
 import org.learn.reggie.service.SetmealService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,9 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
 
     @Autowired
     private SetmealService setmealService;
+
+    @Autowired
+    private DishService dishService;
 
     /**
      * Save set with dish
@@ -96,5 +102,32 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
             return item;
         }).collect(Collectors.toList());
         setmealDishService.saveBatch(setmealDishes);
+    }
+
+    @Override
+    @Transactional
+    public void updateStatus(int status, List<Long> ids) {
+        //Update setmeal set status = {status} where id in {ids}
+        if (status == 1) {
+            //If we want to enable the set, make sure all dish in set is available
+            LambdaQueryWrapper<SetmealDish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.in(SetmealDish::getSetmealId, ids);
+            List<SetmealDish> setmealDishList = setmealDishService.list(lambdaQueryWrapper);
+
+            //Use dish id to search dish is available or not
+            for (SetmealDish setmealDish : setmealDishList) {
+                Dish dish = dishService.getById(setmealDish.getDishId());
+                Integer dishStatus = dish.getStatus();
+                if (dishStatus == 0) {
+                    throw new CustomException("Dish " + dish.getName() + " in set is not available, pls enable first");
+                }
+            }
+        }
+
+        // available
+        LambdaUpdateWrapper<Setmeal> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.in(Setmeal::getId, ids);
+        lambdaUpdateWrapper.set(Setmeal::getStatus, status);
+        setmealService.update(lambdaUpdateWrapper);
     }
 }
