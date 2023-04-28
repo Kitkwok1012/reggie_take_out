@@ -96,4 +96,11 @@ public class SetmealContoller {
 
         return R.success(setmealDto);
     }
+
+    @PutMapping
+    public R<String> modify(@RequestBody SetmealDto setmealDto) {
+        log.info("Modify setmealdish {}", setmealDto);
+        setmealService.modifyWithDish(setmealDto);
+        return R.success("modify setmeal success");
+    }
 }
