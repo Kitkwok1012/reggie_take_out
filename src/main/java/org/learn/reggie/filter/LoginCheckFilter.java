@@ -47,7 +47,10 @@ public class LoginCheckFilter implements Filter {
                 "/employee/login",
                 "/employee/logout",
                 "/backend/**",
-                "front/**"
+                "/front/**",
+                "/common/**",
+                "/user/sendMsg",
+                "/user/login"
         };
 
         //3. Let it go
@@ -61,6 +64,13 @@ public class LoginCheckFilter implements Filter {
         if(request.getSession().getAttribute("employee") != null) {
             Long employeeId = (Long) request.getSession().getAttribute("employee");
             BaseContext.setCurrentId(employeeId);
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if(request.getSession().getAttribute("user") != null) {
+            Long userId = (Long) request.getSession().getAttribute("user");
+            BaseContext.setCurrentId(userId);
             filterChain.doFilter(request, response);
             return;
         }
