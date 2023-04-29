@@ -9,8 +9,8 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/reggie?serverTimezone=Asia/Hong_Kong&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
-      #password: admin #win
-      password: password
+      password: admin #win
+      #password: password
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -18,3 +18,7 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
+
+amazonProperties:
+  accessKey:
+  secretKey:

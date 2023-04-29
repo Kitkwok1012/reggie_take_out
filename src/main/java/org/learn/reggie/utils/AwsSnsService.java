@@ -48,7 +48,7 @@ public class AwsSnsService {
 					.withPhoneNumber(mobileNo)
 					.withMessageAttributes(smsAttributes)
 					.withSdkRequestTimeout(requestTimeout));
-			log.debug(String.valueOf(request));
+			log.info(String.valueOf(request));
 		} catch (RuntimeException e) {
 			log.error("Error occurred sending sms to {} ", mobileNo, e);
 			throw new CustomException("Error while sending sms please try again later ");
