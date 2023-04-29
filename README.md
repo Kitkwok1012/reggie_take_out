@@ -17,17 +17,22 @@ The origin project is using **Ali Cloud** to implement the SMS login function. S
 - Swagger API doc
 
 ### Project Setup
-#####Insert mysql database and data
+##### Insert mysql database and data
 ```
 mysql -u root -p reggie < db_reggie.sql
 ```
-#####Add AWS credentials for SNS service
+##### Add AWS credentials for SNS service
 ```
 amazonProperties:
     accessKey: {key}
     secretKey: {key}
 ```
 
+### Login Page
+User Login page http://localhost:8080/front/page/login.html
+<br/>
+Admin Login page http://localhost:8080/backend/page/login/login.html
+ 
 ### Role
 |Role  | Description | System |
 |------------- | ------------- | ------------- |
