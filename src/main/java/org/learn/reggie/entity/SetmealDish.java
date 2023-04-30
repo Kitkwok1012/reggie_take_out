@@ -2,42 +2,60 @@ package org.learn.reggie.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * 套餐菜品关系
+ */
 @Data
-public class Employee implements Serializable {
+public class SetmealDish implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
 
-    private String username;
 
+    //Setmeal id
+    private Long setmealId;
+
+
+    //dish id
+    private Long dishId;
+
+
+    //name
     private String name;
 
-    private String password;
+    //price
+    private BigDecimal price;
 
-    private String phone;
+    //copies
+    private Integer copies;
 
-    private String sex;
 
-    private String idNumber;
+    //sort
+    private Integer sort;
 
-    private Integer status;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
+
 
     @TableField(fill = FieldFill.INSERT)
     private Long createUser;
 
+
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
+
+    //是否删除
+    private Integer isDeleted;
 }

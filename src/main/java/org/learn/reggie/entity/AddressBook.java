@@ -2,42 +2,73 @@ package org.learn.reggie.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * Address book
+ */
 @Data
-public class Employee implements Serializable {
+public class AddressBook implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
 
-    private String username;
 
-    private String name;
+    private Long userId;
 
-    private String password;
+
+    private String consignee;
+
 
     private String phone;
 
+
     private String sex;
 
-    private String idNumber;
 
-    private Integer status;
+    private String provinceCode;
+
+
+    private String provinceName;
+
+
+    private String cityCode;
+
+
+    private String cityName;
+
+
+    private String districtCode;
+
+
+    private String districtName;
+
+
+    private String detail;
+
+
+    private String label;
+
+    private Integer isDefault;
 
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
+
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
+
 
     @TableField(fill = FieldFill.INSERT)
     private Long createUser;
 
+
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Long updateUser;
 
+
+    private Integer isDeleted;
 }
