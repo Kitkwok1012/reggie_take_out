@@ -21,6 +21,12 @@ The origin project is using **Ali Cloud** to implement the SMS login function. S
 ```
 mysql -u root -p reggie < db_reggie.sql
 ```
+
+#### Start Redis service
+```
+redis-cli -h 127.0.0.1 -p 6379 -a 'password'
+```
+
 ##### Add AWS credentials for SNS service
 ```
 amazonProperties:
