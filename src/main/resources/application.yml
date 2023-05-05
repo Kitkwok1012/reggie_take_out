@@ -11,6 +11,9 @@ spring:
       username: root
       password: admin #win
       #password: password
+  cache:
+    redis:
+      time-to-live: 6000
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
