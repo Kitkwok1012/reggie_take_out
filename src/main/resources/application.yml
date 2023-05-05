@@ -18,7 +18,11 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
-
+redis:
+  host: 172.0.0.1
+  port: 6379
+  password: password
+  database: 0
 amazonProperties:
   accessKey:
   secretKey:
