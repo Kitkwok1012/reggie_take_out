@@ -11,6 +11,7 @@ import org.learn.reggie.entity.User;
 import org.learn.reggie.service.UserService;
 import org.learn.reggie.utils.ValidateCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/user")
@@ -26,6 +28,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Autowired
     private AwsSnsConfiguration awsSnsConfiguration;
@@ -47,7 +52,12 @@ public class UserController {
             //set key on application.yml -> amazonProperties -> access key and secret key
             //awsSnsService.sendSms(phone, "Reggie take out validation code : "  + code);
 
-            session.setAttribute(phone, code);
+            //Save code in session
+            //session.setAttribute(phone, code);
+
+            //Save code in redis cache and set code effective time to 5 mins
+            redisTemplate.opsForValue().set(phone, code, 5, TimeUnit.MINUTES);
+
             return R.success("Send sms validation code success");
         }
 
@@ -61,9 +71,11 @@ public class UserController {
         if (StringUtils.isEmpty(code)) {
             return R.error("validation code cannot be null");
         }
+
+        Object codeInRedis = redisTemplate.opsForValue().get(phone);
         if (StringUtils.isNotEmpty(phone)) {
-            if (session.getAttribute(phone) != null) {
-                String correctCode = session.getAttribute(phone).toString();
+            if (codeInRedis != null) {
+                String correctCode = codeInRedis.toString();
                 if (correctCode.equals(code)) {
                     //check database no this phone number, create new user
 
@@ -79,6 +91,8 @@ public class UserController {
                         userService.save(user);
                     }
                     session.setAttribute("user", user.getId());
+                    //if login success, del redis code
+                    redisTemplate.delete(phone);
                     return R.success(user);
                 } else {
                     return R.error("validation code is wrong, please try again");

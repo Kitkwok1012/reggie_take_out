@@ -11,6 +11,9 @@ spring:
       username: root
       password: admin #win
       #password: password
+  cache:
+    redis:
+      time-to-live: 6000
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -18,7 +21,11 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
-
+redis:
+  host: 172.0.0.1
+  port: 6379
+  password: password
+  database: 0
 amazonProperties:
   accessKey:
   secretKey:
