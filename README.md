@@ -27,6 +27,11 @@ mysql -u root -p reggie < db_reggie.sql
 redis-cli -h 127.0.0.1 -p 6379 -a 'password'
 ```
 
+#### Swagger api doc after application started.
+```
+http://localhost:8080/doc.html#/home
+```
+
 ##### Add AWS credentials for SNS service
 ```
 amazonProperties:
